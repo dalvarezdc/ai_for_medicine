@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ai-for-medicine"
+version = "0.1.0"
+description = "AI based repository to make medical based consultations"
+authors = ["Daniel A"]
+license = "GNU"
+readme = "README.md"
+packages = [{include = "ai_for_medicine"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+py-dotenv = "^0.1"
+awswrangler = "^3.4.2"
+openai = "^1.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
