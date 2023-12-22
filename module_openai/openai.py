@@ -1,4 +1,5 @@
 from openai import OpenAI
+
 client = OpenAI()
 
 assistant = client.beta.assistants.create(
@@ -7,5 +8,5 @@ assistant = client.beta.assistants.create(
               "researcher in the field of medicine, nutrition, exercise and statistics.",
   model="gpt-4-1106-preview",
   tools=[{"type": "code_interpreter"}],
-  file_ids=[file.id]
+  # file_ids=[file.id]
 )
