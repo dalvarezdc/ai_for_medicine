@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import time
 import json
 from typing import Any, Dict
+from prompts.generic_prompts import MEDICINE_INSTRUCTIONS
 
 class OpenAIOperator:
     """Class to operate OpenAI's API for creating assistants, threads, and executing runs."""
@@ -100,12 +101,11 @@ operator = OpenAIOperator(api_key)
 
 operator.create_assistant(
     name="Data visualizer",
-    instructions="Take a deep breath and go step by step with your answers. You are a medical professional and "
-                 "researcher in the field of medicine, nutrition, exercise and statistics."
+    instructions=MEDICINE_INSTRUCTIONS
 )
 
 operator.start_thread()
-operator.create_message("Talk about Ivermectin")
+operator.create_message("Talk about Pizza")
 run = operator.execute_run()
 operator.show_json(run)
 operator.list_messages()
