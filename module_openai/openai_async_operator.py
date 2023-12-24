@@ -72,22 +72,3 @@ class AsyncOpenAIOperator:
         messages = await self.client.beta.threads.messages.list(thread_id=self.thread.id)
         self.show_json(messages)
 
-# Example usage
-async def main():
-    load_dotenv()
-    api_key = os.getenv('OPENAI_API_KEY')
-    operator = AsyncOpenAIOperator(api_key)
-
-    await operator.create_assistant(
-        name="Data visualizer",
-        instructions=MEDICINE_INSTRUCTIONS
-    )
-
-    await operator.start_thread()
-    await operator.create_messages(["Talk about Pizza", "Discuss the benefits of exercise", "Explain machine learning"])
-    runs = await operator.execute_run()
-    for run in runs:
-        operator.show_json(run)
-    await operator.list_messages()
-
-asyncio.run(main())

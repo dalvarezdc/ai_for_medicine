@@ -94,18 +94,3 @@ class OpenAIOperator:
         self.show_json(messages)
 
 
-# Example usage:
-load_dotenv()
-api_key = os.getenv('OPENAI_API_KEY')
-operator = OpenAIOperator(api_key)
-
-operator.create_assistant(
-    name="Data visualizer",
-    instructions=MEDICINE_INSTRUCTIONS
-)
-
-operator.start_thread()
-operator.create_message("Talk about Pizza")
-run = operator.execute_run()
-operator.show_json(run)
-operator.list_messages()
