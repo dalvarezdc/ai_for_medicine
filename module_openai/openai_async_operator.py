@@ -67,8 +67,17 @@ class AsyncOpenAIOperator:
         """Prints the JSON representation of the given object."""
         print(json.dumps(json.loads(obj.model_dump_json()), indent=4))
 
-    async def list_messages(self) -> None:
+    async def list_messages(self, folder_name: str, file_name: str) -> None:
         """Asynchronously lists all messages in the current thread."""
         messages = await self.client.beta.threads.messages.list(thread_id=self.thread.id)
         self.show_json(messages)
+        messages_json = json.dumps(json.loads(messages.model_dump_json()), indent=4)
 
+        # Save into file
+        os.makedirs(folder_name, exist_ok=True)
+        file_path = os.path.join(folder_name, file_name)
+
+        with open(file_path, 'w') as file:
+            file.write(messages_json)
+
+        return json.loads(messages_json)

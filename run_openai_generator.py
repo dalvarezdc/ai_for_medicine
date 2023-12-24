@@ -6,9 +6,11 @@ from dotenv import load_dotenv
 from module_openai.openai_async_operator import AsyncOpenAIOperator
 from module_openai.openai_operator import OpenAIOperator
 from prompts.generic_prompts import MEDICINE_INSTRUCTIONS
+from prompts.utils import generate_prompts
+from prompts.my_research_prompts import research_microbiome
 
 
-async def main():
+async def main(prompts: list, folder_name: str, file_name: str):
     load_dotenv()
     api_key = os.getenv('OPENAI_API_KEY')
     operator = AsyncOpenAIOperator(api_key)
@@ -19,13 +21,14 @@ async def main():
     )
 
     await operator.start_thread()
-    await operator.create_messages(["Talk about Pizza", "Discuss the benefits of exercise", "Explain machine learning"])
+    await operator.create_messages(prompts)
     runs = await operator.execute_run()
     for run in runs:
         operator.show_json(run)
-    await operator.list_messages()
+    await operator.list_messages(folder_name, file_name)
 
-def run_synchronous():
+
+def run_synchronous(prompt: str):
     # Example usage:
     load_dotenv()
     api_key = os.getenv('OPENAI_API_KEY')
@@ -37,26 +40,28 @@ def run_synchronous():
     )
 
     operator.start_thread()
-    operator.create_message("Talk about Pizza")
+    operator.create_message(prompt)
     run = operator.execute_run()
     operator.show_json(run)
-    operator.list_messages()
+    return operator.list_messages()
 
-
-import argparse
 
 parser = argparse.ArgumentParser(description="Example Argparse Program")
-
-# Add arguments
-parser.add_argument("run_async", type=bool, default=True, help="will the code run asynchronously")
+parser.add_argument("--run_sync", action="store_true", help="...")
 
 args = parser.parse_args()
 
-run_async = args.run_async
-print(f"run_async: {args.run_async}")
+do_run_sync = args.run_sync
+subject = 'Gut Microbiome'
 
-if run_async:
-    asyncio.run(main())
+print(f"run_sync: {args.run_sync}")
 
-elif not run_async:
-    run_synchronous()
+prompts = generate_prompts(research_microbiome, subject=subject)
+
+# import ipdb; ipdb.set_trace()
+if not do_run_sync:
+    asyncio.run(main(prompts[:3], folder_name="med_book", file_name=subject))
+
+elif do_run_sync:
+    for prompt in prompts:
+        run_synchronous(prompt)
