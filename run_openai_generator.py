@@ -60,7 +60,7 @@ prompts = generate_prompts(research_microbiome, subject=subject)
 
 # import ipdb; ipdb.set_trace()
 if not do_run_sync:
-    asyncio.run(main(prompts[:3], folder_name="med_book", file_name=subject))
+    asyncio.run(main(prompts[:4], folder_name="med_book", file_name=subject))
 
 elif do_run_sync:
     for prompt in prompts:

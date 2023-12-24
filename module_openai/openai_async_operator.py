@@ -3,8 +3,6 @@ import asyncio
 from openai import AsyncOpenAI
 import json
 from typing import Any, List
-from dotenv import load_dotenv
-from prompts.generic_prompts import MEDICINE_INSTRUCTIONS
 
 
 class AsyncOpenAIOperator:
