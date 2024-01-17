@@ -63,7 +63,7 @@ class AsyncOpenAIOperator:
 
     def show_json(self, obj: Any) -> None:
         """Prints the JSON representation of the given object."""
-        print(json.dumps(json.loads(obj.model_dump_json()), indent=4))
+        print(f"\n{json.dumps(json.loads(obj.model_dump_json()), indent=4)}")
 
     async def list_messages(self, folder_name: str, file_name: str) -> None:
         """Asynchronously lists all messages in the current thread."""
@@ -72,6 +72,7 @@ class AsyncOpenAIOperator:
         messages_json = json.dumps(json.loads(messages.model_dump_json()), indent=4)
 
         # Save into file
+        file_name = file_name.lower().join("_")
         os.makedirs(folder_name, exist_ok=True)
         file_path = os.path.join(folder_name, file_name)
 
